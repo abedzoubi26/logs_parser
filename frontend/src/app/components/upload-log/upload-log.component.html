@@ -1,0 +1,10 @@
+<div class="card p-5">
+    <form class="form-signin" [formGroup]="uploadLog" (ngSubmit)="saveLogFile()">
+      <h3 class="h3 mb-3 font-weight-normal text-center">Add Logs To DB</h3>
+      <div class="form-outline mb-4">
+        <label>Log File</label>
+        <input type="file"  (change)="handleFileInput($event)" class="form-control" id="log" name="log" placeholder="Browse for Log File" required />
+      </div>
+      <button [disabled]="!submitEnabled" type="submit" class="btn btn-block btn-primary">Read</button>
+    </form>
+  </div>

@@ -1,0 +1,81 @@
+version: '3.7'
+services:
+
+    # PHP Service
+    backend:
+        build:
+            context: ../backend
+            dockerfile: ./Dockerfile
+        container_name: "${PROJECT_NAME}_backend"
+        tty: true
+        environment:
+            SERVICE_NAME: backend
+        working_dir: /var/www/backend
+        volumes:
+            - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        depends_on:
+            - db
+        networks:
+            - private
+
+    # Frontend Service
+    frontend:
+        build:
+            context: ../frontend
+            dockerfile: ./Dockerfile
+        container_name: "${PROJECT_NAME}_frontend"
+        tty: true
+        environment:
+            SERVICE_NAME: frontend
+        working_dir: /usr/src/app/frontend
+        ports: 
+            - '4200:4200' 
+        command: > 
+            bash -c "ng serve --host 0.0.0.0 --port 4200"
+        networks:
+            - private
+
+    # Nginx Service
+    webserver:
+        image: nginx:alpine
+        container_name: "${PROJECT_NAME}_webserver"
+        tty: true
+        ports:
+            - "8000:80"
+        depends_on:
+            - backend
+        volumes:
+            - ./backend/:/var/www/backend
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - private
+
+    # MySQL Service
+    db:
+        image: mysql:5.7
+        container_name: "${PROJECT_NAME}_db"
+        # user: "mysql"
+        # tty: true
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DB}
+            MYSQL_USER: ${USER_MYSQL}
+            MYSQL_PASSWORD: ${PASS_MYSQL}     
+            MYSQL_ROOT_PASSWORD: ${PASS_ROOT_MYSQL}
+            MYSQL_ROOT_HOST: '%'
+            SERVICE_NAME: db
+        # command: bash -c "mysql < /docker-entrypoint-initdb.d/logs_parser.sql"
+        volumes:
+            # - mysqldata:/var/lib/mysql/
+            # - ./mysql/my.cnf:/etc/mysql/my.cnf
+            - ./mysql/logs_parser.sql:/docker-entrypoint-initdb.d/logs_parser.sql
+        networks:
+            - private
+
+# Docker Networks
+networks:
+     private:
+        driver: bridge
+#Volumes
+volumes:
+  mysqldata:
+    driver: local

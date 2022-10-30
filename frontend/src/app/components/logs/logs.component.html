@@ -1,0 +1,32 @@
+<div class="row d-block">
+<div class="col-12">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Server</th>
+          <th scope="col">CPU</th>
+          <th scope="col">Ram</th>
+          <th scope="col">High CPU Usage</th>
+          <th scope="col">High Ram Usage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs| paginate: { itemsPerPage: 15, currentPage: p, totalItems: total }">
+          <th scope="row">{{ log.id }}</th>
+          <td>{{ log.server_name }}</td>
+          <td>{{ log.ram_usage }}</td>
+          <td>{{ log.cpu_usage }}</td>
+          <td><span class="badge bg-{{log.is_high_cpu?'danger':'info'}}">{{ log.is_high_cpu ? 'true': 'false' }}</span></td>
+          <td><span class="badge bg-{{log.is_high_ram?'danger':'info'}}">{{ log.is_high_ram ? 'true': 'false' }}</span></td>
+        </tr>
+        <tr>
+      </tbody>
+    </table>
+
+    <div class="justify-content-center d-flex"><pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls></div>
+  </div>
+
+</div>
+</div>

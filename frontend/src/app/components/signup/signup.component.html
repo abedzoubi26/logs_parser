@@ -1,0 +1,43 @@
+<div class="d-flex  justify-content-center">
+<div class="col-6">
+<div class="card p-5">
+  <form class="form-signin" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <h3 class="h3 mb-3 font-weight-normal text-center">Please sign up</h3>
+    <div class="form-outline mb-4">
+      <label>Name</label>
+      <input type="text" class="form-control" id="name" name="name" formControlName="name" placeholder="Enter name" 
+      [ngClass]="{ 'is-invalid': submitted && fcontrols['name'].errors }" required />
+      <div *ngIf="fcontrols['name'].invalid" [ngClass]="{ 'invalid-feedback d-block': submitted && fcontrols['name'].errors,  'd-none': !submitted}">
+        <div *ngIf="fcontrols['name'].invalid && fcontrols['name'].errors && fcontrols['name'].errors['required']">Name is required.</div>
+    </div>
+      
+    </div>
+    <div class="form-outline mb-4">
+      <label>Email address</label>
+      <input type="email" class="form-control" formControlName="email" placeholder="Enter email" 
+      [ngClass]="{ 'is-invalid': submitted && fcontrols['email'].errors }" required />
+      <div *ngIf="fcontrols['email'].invalid" [ngClass]="{ 'invalid-feedback d-block': submitted && fcontrols['email'].errors,  'd-none': !submitted}">
+        <div *ngIf="fcontrols['email'].invalid && fcontrols['email'].errors && fcontrols['email'].errors['required']">Email is required.</div>
+        <div *ngIf="fcontrols['email'].invalid && fcontrols['email'].errors && fcontrols['email'].errors['email']">Please, enter valid email address.</div>
+        <div *ngIf="fcontrols['email'].invalid && fcontrols['email'].errors && fcontrols['email'].errors['backend']">{{fcontrols['email'].errors['backend']}}</div>
+      </div>
+      
+    </div>
+    <div class="form-outline mb-4">
+      <label>Password</label>
+      <input type="password" class="form-control" formControlName="password" placeholder="Password" 
+      [ngClass]="{ 'is-invalid': submitted && fcontrols['password'].errors }" required />
+      <div *ngIf="fcontrols['password'].invalid" [ngClass]="{ 'invalid-feedback d-block': submitted && fcontrols['password'].errors,  'd-none': !submitted}">
+        <div *ngIf="fcontrols['password'].invalid && fcontrols['password'].errors && fcontrols['password'].errors['required']">Password is required.</div>
+        <div *ngIf="fcontrols['password'].invalid && fcontrols['password'].errors && fcontrols['password'].errors['minlength']">Password min length is {{fcontrols['password'].errors['minlength']['requiredLength']}}.</div>
+        <div *ngIf="fcontrols['password'].invalid && fcontrols['password'].errors && fcontrols['password'].errors['backend']">{{fcontrols['password'].errors['backend']}}</div>
+    </div>
+    </div>
+    <button type="submit" class="btn btn-block btn-primary">Sign up</button>
+  </form>
+  <div class="text-center">
+    <p>Have an account? <a href="/log-in">Sign in</a></p>
+  </div>
+</div>
+</div>
+</div>
