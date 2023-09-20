@@ -1,5 +1,3 @@
-# SITech
-
 ## Requirements:
 
 1. Docker with Docker compose
